@@ -89,10 +89,16 @@ public abstract class AbstractConfig implements Serializable {
         return value;
     }
 
+    /**
+     * 使用配置重新填充 config 的属性
+     * @param config
+     */
     protected static void appendProperties(AbstractConfig config) {
         if (config == null) {
             return;
         }
+        // dubbo.reference.
+        // dubbo.consume.
         String prefix = "dubbo." + getTagName(config.getClass()) + ".";
         Method[] methods = config.getClass().getMethods();
         for (Method method : methods) {
@@ -142,7 +148,6 @@ public abstract class AbstractConfig implements Serializable {
                                         value = convertLegacyValue(legacyKey, ConfigUtils.getProperty(legacyKey));
                                     }
                                 }
-
                             }
                         }
                     }

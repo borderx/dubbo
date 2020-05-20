@@ -166,6 +166,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
             } else {
                 List<URL> urls = new ArrayList<URL>();
                 for (String path : toCategoriesPath(url)) {
+                    // /dubbo/xxx/consumers
                     ConcurrentMap<NotifyListener, ChildListener> listeners = zkListeners.get(url);
                     if (listeners == null) {
                         zkListeners.putIfAbsent(url, new ConcurrentHashMap<NotifyListener, ChildListener>());

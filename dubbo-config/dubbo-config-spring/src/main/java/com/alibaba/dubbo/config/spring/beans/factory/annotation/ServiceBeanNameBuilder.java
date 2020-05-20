@@ -98,6 +98,7 @@ class ServiceBeanNameBuilder {
     }
 
     public String build() {
+        // ServiceBean:[interfaceClassName]:[version]:[group]
         StringBuilder beanNameBuilder = new StringBuilder("ServiceBean").append(SEPARATOR);
         // Required
         append(beanNameBuilder, interfaceClassName);

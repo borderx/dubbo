@@ -131,9 +131,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
         ManagedMap parameters = null;
         for (Method setter : beanClass.getMethods()) {
             String name = setter.getName();
-            if (name.length() > 3 && name.startsWith("set")
-                    && Modifier.isPublic(setter.getModifiers())
-                    && setter.getParameterTypes().length == 1) {
+            if (name.length() > 3 && name.startsWith("set") && Modifier.isPublic(setter.getModifiers()) && setter.getParameterTypes().length == 1) {
                 Class<?> type = setter.getParameterTypes()[0];
                 String propertyName = name.substring(3, 4).toLowerCase() + name.substring(4);
                 String property = StringUtils.camelToSplitName(propertyName, "-");
@@ -147,9 +145,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
                     } catch (NoSuchMethodException e2) {
                     }
                 }
-                if (getter == null
-                        || !Modifier.isPublic(getter.getModifiers())
-                        || !type.equals(getter.getReturnType())) {
+                if (getter == null || !Modifier.isPublic(getter.getModifiers()) || !type.equals(getter.getReturnType())) {
                     continue;
                 }
                 if ("parameters".equals(property)) {
@@ -258,8 +254,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
     }
 
     @SuppressWarnings("unchecked")
-    private static void parseMultiRef(String property, String value, RootBeanDefinition beanDefinition,
-                                      ParserContext parserContext) {
+    private static void parseMultiRef(String property, String value, RootBeanDefinition beanDefinition, ParserContext parserContext) {
         String[] values = value.split("\\s*[,]+\\s*");
         ManagedList list = null;
         for (int i = 0; i < values.length; i++) {
@@ -281,8 +276,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 if (node instanceof Element) {
-                    if (tag.equals(node.getNodeName())
-                            || tag.equals(node.getLocalName())) {
+                    if (tag.equals(node.getNodeName()) || tag.equals(node.getLocalName())) {
                         if (first) {
                             first = false;
                             String isDefault = element.getAttribute("default");
@@ -301,12 +295,12 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
     }
 
     private static void parseProperties(NodeList nodeList, RootBeanDefinition beanDefinition) {
+        // 解析 <property name="xxx" ref="xxx" /> or <property name="xxx" value="xxx" />
         if (nodeList != null && nodeList.getLength() > 0) {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 if (node instanceof Element) {
-                    if ("property".equals(node.getNodeName())
-                            || "property".equals(node.getLocalName())) {
+                    if ("property".equals(node.getNodeName()) || "property".equals(node.getLocalName())) {
                         String name = ((Element) node).getAttribute("name");
                         if (name != null && name.length() > 0) {
                             String value = ((Element) node).getAttribute("value");
@@ -332,8 +326,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 if (node instanceof Element) {
-                    if ("parameter".equals(node.getNodeName())
-                            || "parameter".equals(node.getLocalName())) {
+                    if ("parameter".equals(node.getNodeName()) || "parameter".equals(node.getLocalName())) {
                         if (parameters == null) {
                             parameters = new ManagedMap();
                         }
@@ -353,8 +346,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
     }
 
     @SuppressWarnings("unchecked")
-    private static void parseMethods(String id, NodeList nodeList, RootBeanDefinition beanDefinition,
-                                     ParserContext parserContext) {
+    private static void parseMethods(String id, NodeList nodeList, RootBeanDefinition beanDefinition, ParserContext parserContext) {
         if (nodeList != null && nodeList.getLength() > 0) {
             ManagedList methods = null;
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -369,11 +361,9 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
                         if (methods == null) {
                             methods = new ManagedList();
                         }
-                        BeanDefinition methodBeanDefinition = parse(((Element) node),
-                                parserContext, MethodConfig.class, false);
+                        BeanDefinition methodBeanDefinition = parse(((Element) node), parserContext, MethodConfig.class, false);
                         String name = id + "." + methodName;
-                        BeanDefinitionHolder methodBeanDefinitionHolder = new BeanDefinitionHolder(
-                                methodBeanDefinition, name);
+                        BeanDefinitionHolder methodBeanDefinitionHolder = new BeanDefinitionHolder(methodBeanDefinition, name);
                         methods.add(methodBeanDefinitionHolder);
                     }
                 }
@@ -398,11 +388,9 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
                         if (arguments == null) {
                             arguments = new ManagedList();
                         }
-                        BeanDefinition argumentBeanDefinition = parse(((Element) node),
-                                parserContext, ArgumentConfig.class, false);
+                        BeanDefinition argumentBeanDefinition = parse(((Element) node), parserContext, ArgumentConfig.class, false);
                         String name = id + "." + argumentIndex;
-                        BeanDefinitionHolder argumentBeanDefinitionHolder = new BeanDefinitionHolder(
-                                argumentBeanDefinition, name);
+                        BeanDefinitionHolder argumentBeanDefinitionHolder = new BeanDefinitionHolder(argumentBeanDefinition, name);
                         arguments.add(argumentBeanDefinitionHolder);
                     }
                 }
